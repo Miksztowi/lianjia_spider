@@ -57,7 +57,7 @@ class VideoSpiderSpider(scrapy.Spider):
                 )
 
     def get_courseid(self, response):
-        video_url = 'http://www.ljabc.com.cn/system/getCourseVideosByCourseId.html'
+        video_url = 'http://www.ljabc.com.cn/system/getPlayVideosByCourseId.html'
         re_c = re.compile(r'courseId=(\d+)')
         searched = re_c.search(response.url)
         if searched:
@@ -73,7 +73,7 @@ class VideoSpiderSpider(scrapy.Spider):
         video_list = json.loads(response.text)
         for video in video_list:
             item['video_link'] = video['HPVD_PATH']
-            item['video_name'] = video['HPVD_DESCR']
+            item['video_name'] = video['HPVD_FILENAME']
             item['dir_name'] = video['HPCO_NAME']
             yield item
 
@@ -88,3 +88,4 @@ if __name__ == '__main__':
         key += '0'
     k = triple_des(key, CBC, IV='zhangxl6', pad=None, padmode=PAD_PKCS5)
     d = k.encrypt(data)
+
